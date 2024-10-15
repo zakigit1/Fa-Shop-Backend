@@ -12,26 +12,34 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+
+    
+    protected $table = "users";
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = ['id'];
+
+
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
+
+
     protected $hidden = [
+        // 'id',
         'password',
+        'created_at',
+        'updated_at',
         'remember_token',
     ];
+
 
     /**
      * The attributes that should be cast.
@@ -41,4 +49,33 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    //this using when i create a token of user : is optional 
+    const USER_TOKEN = "userToken";
+
+
+##################################################################################################################
+
+
+    public function scopeActive($query) // to show just the active slide in store 
+    {
+        return $query->where('status', 'active');
+    }       
+   
+/*                                                  End Local Scopes                                  */
+
+/*                                                 Begin GET                                          */
+    public function getImageAttribute($value)
+    {
+        return ($value !== NULL) ? asset( 'storage/Uploads/images/users/'.$value) : " ";
+    }
+/*                                                 End GET                                            */
+
+
+
+
+
+
+
 }
