@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum','checkPassword'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -25,7 +25,7 @@ Route::post('/api-online',function(){
 });
 
 
-Route::group(['prefix'=>'user'],function(){
+Route::group(['prefix'=>'user','middleware'=>'checkPassword'],function(){
 
 
     Route::post('/register',[AuthController::class,'register']);

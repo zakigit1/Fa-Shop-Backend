@@ -21,19 +21,6 @@ class AuthController extends Controller
     const FOLDER_PATH = '/Uploads/images/';
     const FOLDER_NAME = 'users';
 
-    public UserServices $userservices;
-
-    public function __construct(UserServices $userservice){
-
-       $this->userservices = $userservice;
-
-    }
-
-    /** Add it to General file */
-    const SUCCESS_CODE = 200;
-    const VALIDATION_ERROR_CODE = 422;
-    const ERROR_CODE = 500;
-
 
     /**
      * Registers a user
@@ -64,18 +51,14 @@ class AuthController extends Controller
                 [
                 'userData'=>$user,
                 'token'=> $token->plainTextToken,
-            ],'User has been register successfully.',self::SUCCESS_CODE);
+            ],'User has been register successfully.',SUCCESS_CODE);
 
-            // return $this->sendResponse([
-            //     'userData' => $user,
-            //     'token' => $token->plainTextToken,
-            // ],'success','User has been register successfully.',self::SUCCESS_CODE);
 
         } catch (\Exception $ex) {
             DB::rollBack();
   
-            return $this->error($ex->getMessage(),self::ERROR_CODE);
-            // return $this->error("something is wrong!",self::ERROR_CODE);
+            return $this->error($ex->getMessage(),ERROR_CODE);
+            // return $this->error("something is wrong!",ERROR_CODE);
 
         }
     }
@@ -106,7 +89,6 @@ class AuthController extends Controller
 
         if (!$isValid['success']) { //sucess value is false
 
-            // return $this->sendResponse($isValid['message'],'failed', Response::HTTP_UNPROCESSABLE_ENTITY);
             return $this->error($isValid['message'], Response::HTTP_UNPROCESSABLE_ENTITY);
 
         }
@@ -120,7 +102,7 @@ class AuthController extends Controller
         return $this->success([
             'userData' => $user,
             'token' => $token->plainTextToken
-        ],'Login successfully!',self::SUCCESS_CODE);
+        ],'Login successfully!',SUCCESS_CODE);
 
     }
 
@@ -175,7 +157,7 @@ class AuthController extends Controller
 
     public function loginWithToken() : JsonResponse
     {
-        return $this->success(auth()->user(),'login successfully!',self::SUCCESS_CODE);
+        return $this->success(auth()->user(),'login successfully!',SUCCESS_CODE);
     }
 
     /**
@@ -201,7 +183,7 @@ class AuthController extends Controller
             $token->delete();
         });
 
-        return $this->success(null,'Logout successfully!',self::SUCCESS_CODE);
+        return $this->success(null,'Logout successfully!',SUCCESS_CODE);
     }
 
 
