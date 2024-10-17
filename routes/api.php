@@ -21,7 +21,7 @@ Route::middleware(['auth:sanctum','checkPassword'])->get('/user', function (Requ
 
 // this for testing api 
 Route::post('/api-online',function(){
-    dd('We Are Online now !');
+    dd('We Are TN DEVELOPER Team!');
 });
 
 
