@@ -10,11 +10,27 @@ return [
     | Contains an array with the applications available locales.
     |
     */
-    'locales' => [
-        'en',
-        'fr',
-        'ar',
+    'locales' =>[
+        'en' =>[
+            'en' => 'English',
+            'fr' => 'French',
+            'ar' => 'Arabic',
+        ],
+
+        'ar'=>[
+            'en' => 'اللغة الإنجليزية',
+            'fr' => 'اللغة الفرنسية',
+            'ar' => 'اللغة العربية',
+        ],
+        'fr'=>[
+            'en' => 'Anglais',
+            'fr' => 'Français',
+            'ar' => 'Arabe',
+        ]
     ],
+   
+
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +56,7 @@ return [
     | and never fallback to the translator one.
     |
     */
-    'locale' => null,
+    'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------

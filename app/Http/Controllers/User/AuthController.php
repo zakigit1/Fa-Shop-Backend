@@ -18,7 +18,7 @@ class AuthController extends Controller
 {
     use imageUploadTrait;
 
-    const FOLDER_PATH = '/Uploads/images/';
+    const FOLDER_PATH = '/uploads/images/';
     const FOLDER_NAME = 'users';
 
 
@@ -50,7 +50,7 @@ class AuthController extends Controller
             return $this->success(
                 [
                 'userData'=>$user,
-                'token'=> $token->plainTextToken,
+                'token'=> $token->plainTextToken,// you give you a token
             ],'User has been register successfully.',SUCCESS_CODE);
 
 
@@ -69,8 +69,9 @@ class AuthController extends Controller
             'name' => $request->name,
             'password' => Hash::make($request->password),
             'username' => strstr($request->email, '@', true),
-            'phone' => $request->phone,
             'email' => $request->email,
+            'phone' => $request->phone,
+            'status' => 'active',//is by default active 
         ];
     }
 
@@ -96,6 +97,9 @@ class AuthController extends Controller
 
         $user = $isValid['user'];
 
+        $user->tokens()->delete();// this new update
+
+        // i need to delete the previous token that give it to use when you register
         $token = $user->createToken(User::USER_TOKEN);
 
 
@@ -169,22 +173,22 @@ class AuthController extends Controller
 
 
     ######## this doing deleted just the current token of user :
-    // public function logout(Request $request) : JsonResponse
-    // {
-    //     $request->user()->currentAccessToken()->delete();//delete the current user authanticated token
+    public function logout(Request $request) : JsonResponse
+    {
+        $request->user()->currentAccessToken()->delete();//delete the current user authanticated token
 
-    //     // return $this->success(null,'Logout successfully!');
-    // }
+        return $this->success(null,'Logout successfully!');
+    }
 
     ######## this doing deleted all user token  :
-    public function logout(Request $request): JsonResponse
-    {
-        $request->user()->tokens->each(function ($token, $key) {
-            $token->delete();
-        });
+    // public function logout(Request $request): JsonResponse
+    // {
+    //     $request->user()->tokens->each(function ($token, $key) {
+    //         $token->delete();
+    //     });
 
-        return $this->success(null,'Logout successfully!',SUCCESS_CODE);
-    }
+    //     return $this->success(null,'Logout successfully!',SUCCESS_CODE);
+    // }
 
 
 }

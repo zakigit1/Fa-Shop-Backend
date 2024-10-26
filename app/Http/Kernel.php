@@ -42,6 +42,9 @@ class Kernel extends HttpKernel
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
+            // 'checkPassword' => \App\Http\Middleware\CheckPassword::class,
+            // 'setLang' => \App\Http\Middleware\setLanguage::class,
         ],
     ];
 
@@ -66,6 +69,6 @@ class Kernel extends HttpKernel
 
         // new middleware for API :
             'checkPassword' => \App\Http\Middleware\CheckPassword::class,
-            'checkLanguage' => \App\Http\Middleware\CheckLanguage::class,
+            // 'checkLanguage' => \App\Http\Middleware\CheckLanguage::class,
     ];
 }

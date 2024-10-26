@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,19 +13,18 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 
+
 class NewPasswordController extends Controller
 {
     /**
      * Handle an incoming new password request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): JsonResponse
     {
         $request->validate([
             'token' => ['required'],
             'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', 'min:8'],
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -48,6 +48,14 @@ class NewPasswordController extends Controller
             ]);
         }
 
-        return response()->json(['status' => __($status)]);
+        // After password reset, create a new token for API access
+        $user = User::where('email', $request->email)->first();
+        $token = $user->createToken('api-token-password-reset');
+
+        return response()->json([
+            'status' => __($status),
+            'token' => $token->plainTextToken
+        ]);
     }
 }
+

@@ -8,12 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 
+
 class PasswordResetLinkController extends Controller
 {
     /**
      * Handle an incoming password reset link request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): JsonResponse
     {
@@ -37,3 +36,4 @@ class PasswordResetLinkController extends Controller
         return response()->json(['status' => __($status)]);
     }
 }
+

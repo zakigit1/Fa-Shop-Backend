@@ -22,6 +22,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $guarded = ['id'];
+    // protected $fillable = ['name','email','password','phone','image','username'];
 
 
 
@@ -68,7 +69,7 @@ class User extends Authenticatable
 /*                                                 Begin GET                                          */
     public function getImageAttribute($value)
     {
-        return ($value !== NULL) ? asset( 'storage/Uploads/images/users/'.$value) : " ";
+        return ($value !== NULL) ? asset( 'storage/uploads/images/users/'.$value) : " ";
     }
 /*                                                 End GET                                            */
 
